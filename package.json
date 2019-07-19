@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git@github.com:spotify/polly-jest-presets.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "types": "types",
   "files": [
     "cjs",
