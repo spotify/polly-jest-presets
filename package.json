@@ -1,13 +1,13 @@
 {
   "name": "@spotify/polly-jest-presets",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "Presets for Jest that make Polly.js plug-and-play",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/spotify/polly-jest-presets"
+    "url": "git@github.com:spotify/polly-jest-presets.git"
   },
   "types": "types",
   "files": [
@@ -36,8 +36,8 @@
     "@pollyjs/adapter-node-http": "^2.6.0",
     "@pollyjs/core": "^2.6.0",
     "@pollyjs/persister-fs": "^2.6.0",
-    "setup-polly-jest": "^0.5.2",
-    "lodash.merge": "^4.6.2"
+    "lodash.merge": "^4.6.2",
+    "setup-polly-jest": "^0.5.2"
   },
   "devDependencies": {
     "@spotify/web-scripts": "^1.0.0",
