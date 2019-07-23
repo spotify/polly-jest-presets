@@ -34,7 +34,8 @@ Add the preset to your [Jest config](https://jestjs.io/docs/en/configuration) (b
 To test it out, make a network request in one of your tests.
 
 ```js
-import fetch from 'node-fetch';
+// `yarn add -D node-fetch` for this demo
+const fetch = require('node-fetch');
 
 describe('a dummy test', () => {
   it('fetches something', async () => {
