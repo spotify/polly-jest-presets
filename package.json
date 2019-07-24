@@ -1,13 +1,13 @@
 {
   "name": "@spotify/polly-jest-presets",
-  "version": "1.0.0",
+  "version": "0.0.0-semantic-release",
   "description": "Presets for Jest that make Polly.js plug-and-play",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:spotify/polly-jest-presets.git"
+    "url": "https://github.com/spotify/polly-jest-presets.git"
   },
   "publishConfig": {
     "access": "public"
