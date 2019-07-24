@@ -1,5 +1,8 @@
 # polly-jest-presets
 
+[![build](https://img.shields.io/circleci/build/github/spotify/polly-jest-presets.svg)](https://circleci.com/gh/spotify/polly-jest-presets)
+[![version](https://img.shields.io/github/package-json/v/spotify/polly-jest-presets.svg)](https://www.npmjs.com/package/@spotify/polly-jest-presets)
+
 An opinionated configuration and wrapper around [Polly] and [setup-polly-jest] to have automatic recording and playback of network requests made during your [Jest] tests.
 
 **Note:** Polly Jest Presets bundles in all necessary Polly packages to make the setup as easy as possible for a typical Node-based web app. It uses File persister to store recordings locally. Therefore, there's no need to install Polly or Polly Jest bindings separately in your project after including this preset.
