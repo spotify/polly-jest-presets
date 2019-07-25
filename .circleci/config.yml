@@ -26,3 +26,22 @@ jobs:
       - run:
           name: build
           command: yarn build
+  release:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run:
+          name: release
+          command: yarn release
+workflows:
+  version: 2
+  build_and_release:
+    jobs:
+      - build
+      - release:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
