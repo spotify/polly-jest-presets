@@ -32,6 +32,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: yarn-install
+          command: yarn
+      - run:
           name: release
           command: yarn release
 workflows:
