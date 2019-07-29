@@ -8,6 +8,6 @@ describe('test node preset', () => {
   });
 
   it('configures the polly instance', () => {
-    expect(global.pollyContext.polly.config.expiresIn).toEqual(DEFAULT_EXPIRATION);
+    expect(global.pollyContext.polly.config.expiresIn).toEqual(`${DEFAULT_EXPIRATION}d`);
   });
 });

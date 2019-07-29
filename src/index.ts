@@ -25,7 +25,7 @@ const defaultConfig = {
   recordIfMissing: false,
   recordFailedRequests: true,
   expiryStrategy: process.env.CI ? 'error' : 'record',
-  expiresIn: DEFAULT_EXPIRATION,
+  expiresIn: `${DEFAULT_EXPIRATION}d`,
   // insulate the tests from differences in session data. we use order and
   // url to match requests to one another, which we did previously with an
   // internal fork of LinkedIn's Sepia VCR. This should be fine for deterministic
