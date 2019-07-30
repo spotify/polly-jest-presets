@@ -27,8 +27,7 @@
     "build": "web-scripts build",
     "commit": "web-scripts commit",
     "release": "web-scripts release",
-    "prepublishOnly": "$npm_execpath run build",
-    "expiryWarning": "node ./cjs/expiryWarning.js"
+    "prepublishOnly": "$npm_execpath run build"
   },
   "husky": {
     "hooks": {

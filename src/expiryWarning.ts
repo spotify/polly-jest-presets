@@ -7,7 +7,7 @@ const stat = promisify(fs.stat);
 
 import {
   DEFAULT_RECORDING_DIR,
-  DEFAULT_EXPIRATION,
+  DEFAULT_EXPIRATION_DAYS,
   DEFAULT_DAYS_FOR_EXPIRY_WARNING,
   COLORS,
 } from './constants';
@@ -19,9 +19,9 @@ interface recordingFile {
 }
 
 // CONSTANTS
-const DAYS_TO_WARN: number = process.env.DAYS_TO_WARN ? parseInt(process.env.DAYS_TO_WARN, 10) : DEFAULT_DAYS_FOR_EXPIRY_WARNING;
-const DAYS_EXPIRY: number = process.env.DAYS_EXPIRY ? parseInt(process.env.DAYS_EXPIRY, 10) : DEFAULT_EXPIRATION;
-const RECORDINGS_FOLDER: string = process.env.RECORDINGS_FOLDER || DEFAULT_RECORDING_DIR;
+const DAYS_TO_WARN: number = process.env.POLLY_DAYS_TO_WARN ? parseInt(process.env.POLLY_DAYS_TO_WARN, 10) : DEFAULT_DAYS_FOR_EXPIRY_WARNING;
+const DAYS_EXPIRY: number = process.env.POLLY_DAYS_EXPIRY ? parseInt(process.env.POLLY_DAYS_EXPIRY, 10) : DEFAULT_EXPIRATION_DAYS;
+const RECORDINGS_FOLDER: string = process.env.POLLY_RECORDINGS_FOLDER || DEFAULT_RECORDING_DIR;
 const STATES = {
   EXPIRED: `${COLORS.RED}Expired${COLORS.DEFAULT}`,
   ALMOST_EXPIRED: `${COLORS.YELLOW}Expires in less than ${DEFAULT_DAYS_FOR_EXPIRY_WARNING} days${COLORS.DEFAULT}`,
@@ -70,14 +70,14 @@ export function isExpired(filePath: string) {
 }
 
 // Report warning in console
-export function reportWarning(files: recordingFile[]) {
+function reportWarning(files: recordingFile[]) {
   if (files.length > 0) {
     let fileList: string = '';
     files.forEach((file: recordingFile) => { fileList += `    * ${file.status}: ${file.name}\n`});
     // eslint-disable-next-line no-console
     console.warn(
       `\n${COLORS.RED}#########################  WARNING  ########################\n
-      ${COLORS.DEFAULT}Following Polly recordings expired/will expire soon!
+      ${COLORS.DEFAULT}The following Polly recordings expired/will expire soon!
       Consider re-recording them now to avoid being blocked from merging.\n\n${fileList}\n${COLORS.DEFAULT}`);
   }
 }

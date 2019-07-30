@@ -1,6 +1,6 @@
 import path from 'path';
 
-export const DEFAULT_EXPIRATION = 14;
+export const DEFAULT_EXPIRATION_DAYS = 14;
 export const DEFAULT_DAYS_FOR_EXPIRY_WARNING = 3;
 export const DEFAULT_RECORDING_DIR_NAME = '.polly_recordings';
 export const DEFAULT_RECORDING_DIR = path.resolve(

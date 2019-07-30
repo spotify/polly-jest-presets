@@ -98,6 +98,37 @@ This preset has a few opinions baked in. All of these are overridable by setting
 
 We think it's safer to expire recordings frequently. The default `expiresIn` is set to `"14d"` in this preset, and [we plan to update Polly](https://github.com/Netflix/pollyjs/issues/226) to support throwing errors when encountering expired recordings in `replay` mode.
 
+#### Enabling warning for recordings expiring soon
+
+We offer a script that can be included in pre-commit hook to warn users about recordings that will expire soon. This is to encourage timely re-recording and prevent people from getting blocked because of tests failing on CI due to expired recordings.
+
+As this script does not have access to Polly config, default values are provided and can be overridden via following environment variables:
+
+```sh
+# after how many days from last recording are recordings considered expired
+POLLY_DAYS_EXPIRY=14
+
+# how many days prior to recording expiry we should warn user about it
+POLLY_DAYS_TO_WARN=3
+
+# folder with recordings
+RECORDINGS_FOLDER=.polly_recordings
+```
+
+Example package.json extract, using yarn and [husky](https://www.npmjs.com/package/husky):
+
+```sh
+"husky": {
+    "hooks": {
+      "pre-commit": "POLLY_DAYS_EXPIRY=21 node ./node_modules/@spotify/polly-jest-presets/cjs/expiryWarning.js",
+    }
+}
+```
+
+This will yield following output in console:
+
+![Expiry Warning Example](./expiry_warning_example.png "Expiry Warning Example")
+
 ### Explicit recording only (no `recordIf*`)
 
 We think it makes more sense to avoid recording in the background for test authoring to avoid unexpected changes to checked in .har files. Because of this, we have set all of the `recordIf*` config values to false. **This means that your tests will fail when you first write them if you don't override `POLLY_MODE`.**
