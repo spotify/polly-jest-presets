@@ -55,7 +55,7 @@ First, you need to run the tests with the `POLLY_MODE` environment variable set 
 POLLY_MODE="record" jest
 ```
 
-You should now see a `.polly_recordings` folder at the root of your project. It should contain a `.har` file which shows the request we made within the it block.
+You should now see a `.polly_recordings` directory at the root of your project. It should contain a `.har` file which shows the request we made within the it block.
 
 To test that playback works, disconnect your internet on your machine and run:
 
@@ -111,8 +111,8 @@ POLLY_DAYS_EXPIRY=14
 # how many days prior to recording expiry we should warn user about it
 POLLY_DAYS_TO_WARN=3
 
-# folder with recordings
-RECORDINGS_FOLDER=.polly_recordings
+# directory with recordings
+RECORDINGS_DIR=.polly_recordings
 ```
 
 Example package.json extract, using yarn and [husky](https://www.npmjs.com/package/husky):

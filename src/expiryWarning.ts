@@ -21,7 +21,7 @@ interface recordingFile {
 // CONSTANTS
 const DAYS_TO_WARN: number = process.env.POLLY_DAYS_TO_WARN ? parseInt(process.env.POLLY_DAYS_TO_WARN, 10) : DEFAULT_DAYS_FOR_EXPIRY_WARNING;
 const DAYS_EXPIRY: number = process.env.POLLY_DAYS_EXPIRY ? parseInt(process.env.POLLY_DAYS_EXPIRY, 10) : DEFAULT_EXPIRATION_DAYS;
-const RECORDINGS_FOLDER: string = process.env.POLLY_RECORDINGS_FOLDER || DEFAULT_RECORDING_DIR;
+const RECORDINGS_DIR: string = process.env.POLLY_RECORDINGS_DIR || DEFAULT_RECORDING_DIR;
 const STATES = {
   EXPIRED: `${COLORS.RED}Expired${COLORS.DEFAULT}`,
   ALMOST_EXPIRED: `${COLORS.YELLOW}Expires in less than ${DEFAULT_DAYS_FOR_EXPIRY_WARNING} days${COLORS.DEFAULT}`,
@@ -29,34 +29,33 @@ const STATES = {
 
 // Get all expired or soon to be expired recordings
 export async function getFiles(dir: string, fileList: recordingFile[] = []) {
-  let subDirectories;
-  let currentFileList = fileList;
+  let recordingsDirContent;
   try {
-    subDirectories = await readdir(dir);
+    recordingsDirContent = await readdir(dir);
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.error(`[Polly Jest Preset] Recordings folder "${dir}" not found`);
+    console.error(`[Polly Jest Preset] Recordings directory "${dir}" not found`);
     return [];
   }
-  await Promise.all(subDirectories.map(async (directory: string) => {
+  await Promise.all(recordingsDirContent.map(async (directory: string) => {
     const absolutePath = resolve(dir, directory);
     if ((await stat(absolutePath)).isDirectory()) {
-      currentFileList = await getFiles(absolutePath, fileList)
+      await getFiles(absolutePath, fileList)
     } else {
       if (absolutePath.endsWith('.har')) {
-        const expiredStatus = isExpired(absolutePath);
+        const expiredStatus = getExpiredState(absolutePath);
         if (expiredStatus) {
           const readableName = absolutePath.split(sep).slice(-2, -1)[0];
-          currentFileList.push({ name: readableName, status: expiredStatus });
+          fileList.push({ name: readableName, status: expiredStatus });
         }
       }
     }
   }));
-  return currentFileList;
+  return fileList;
 }
 
 // Determine if recording is expired or will expire soon
-export function isExpired(filePath: string) {
+export function getExpiredState(filePath: string) {
   const recording = fs.readFileSync(filePath);
   const jsonRecording = JSON.parse(recording.toString());
   const startDate = moment(jsonRecording.log.entries[0].startedDateTime);
@@ -82,4 +81,4 @@ function reportWarning(files: recordingFile[]) {
   }
 }
 
-getFiles(RECORDINGS_FOLDER).then(files => reportWarning(files));
+getFiles(RECORDINGS_DIR).then(files => reportWarning(files));
