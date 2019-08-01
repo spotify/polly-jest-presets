@@ -1,6 +1,6 @@
 import { Polly } from '@pollyjs/core';
-import { DEFAULT_EXPIRATION } from './constants';
-import '.';
+import { DEFAULT_EXPIRATION_DAYS } from '../constants';
+import '..';
 
 describe('test node preset', () => {
   it('creates a global polly context', () => {
@@ -8,6 +8,6 @@ describe('test node preset', () => {
   });
 
   it('configures the polly instance', () => {
-    expect(global.pollyContext.polly.config.expiresIn).toEqual(DEFAULT_EXPIRATION);
+    expect(global.pollyContext.polly.config.expiresIn).toEqual(`${DEFAULT_EXPIRATION_DAYS}d`);
   });
 });
