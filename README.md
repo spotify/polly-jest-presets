@@ -1,7 +1,7 @@
 # polly-jest-presets
 
-[![build](https://img.shields.io/circleci/build/github/spotify/polly-jest-presets.svg)](https://circleci.com/gh/spotify/polly-jest-presets)
-[![version](https://img.shields.io/github/package-json/v/spotify/polly-jest-presets.svg)](https://www.npmjs.com/package/@spotify/polly-jest-presets)
+[![Actions Status](https://github.com/spotify/polly-jest-presets/workflows/Tests/badge.svg)](https://github.com/spotify/polly-jest-presets/actions)
+[![Version](https://img.shields.io/npm/v/@spotify/polly-jest-presets.svg)](https://www.npmjs.com/package/@spotify/polly-jest-presets)
 
 An opinionated configuration and wrapper around [Polly] and [setup-polly-jest] to have automatic recording and playback of network requests made during your [Jest] tests.
 
