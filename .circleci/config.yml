@@ -1,31 +1,5 @@
 version: 2
 jobs:
-  build:
-    docker:
-      - image: circleci/node:10
-    steps:
-      - checkout
-      - run:
-          name: update-yarn-version
-          command: 'curl --compressed -o- -L https://yarnpkg.com/install.sh | bash'
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: yarn-install
-          command: yarn
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
-      - run:
-          name: lint
-          command: yarn lint
-      - run:
-          name: test
-          command: yarn test
-      - run:
-          name: build
-          command: yarn build
   release:
     docker:
       - image: circleci/node:10
@@ -35,16 +9,22 @@ jobs:
           name: yarn-install
           command: yarn
       - run:
+          name: lint
+          command: yarn lint
+      - run:
+          name: test
+          command: yarn test
+      - run:
+          name: build
+          command: yarn build
+      - run:
           name: release
           command: yarn release
 workflows:
   version: 2
   build_and_release:
     jobs:
-      - build
       - release:
-          requires:
-            - build
           filters:
             branches:
               only: master
