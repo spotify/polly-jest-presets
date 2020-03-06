@@ -32,6 +32,15 @@ Add the preset to your [Jest config](https://jestjs.io/docs/en/configuration) (b
 }
 ```
 
+### Application create from CRA
+
+Add below line to your `setupTests.js`
+
+```
+import { configure } from "@spotify/polly-jest-presets/cjs/cra"
+configure({}) // Pass any valid polly config here
+```
+
 ### Getting Started
 
 To test it out, make a network request in one of your tests.
@@ -49,7 +58,7 @@ describe('a dummy test', () => {
 });
 ```
 
-First, you need to run the tests with the `POLLY_MODE` environment variable set to `record`. This will tell Polly that you intend for all of the requests to record in this test run. 
+First, you need to run the tests with the `POLLY_MODE` environment variable set to `record`. This will tell Polly that you intend for all of the requests to record in this test run.
 
 ```sh
 POLLY_MODE="record" jest
@@ -78,6 +87,8 @@ If you want to override Polly configuration, you can add configuration to `globa
   }
 }
 ```
+
+**For CRA**: pass config to `configure` function
 
 *See all of the valid Polly options [in the Polly documentation](https://netflix.github.io/pollyjs/#/configuration).*
 
