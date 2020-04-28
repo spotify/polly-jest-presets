@@ -1,10 +1,9 @@
+import path from 'path';
 import { setupPolly } from 'setup-polly-jest';
 import { Polly } from '@pollyjs/core';
 import NodeHttpAdapter from '@pollyjs/adapter-node-http';
 import FSPersister from '@pollyjs/persister-fs';
 import merge from 'lodash.merge';
-
-import { DEFAULT_RECORDING_DIR, DEFAULT_EXPIRATION_DAYS } from './constants';
 
 Polly.register(NodeHttpAdapter);
 Polly.register(FSPersister);
@@ -18,14 +17,14 @@ const defaultConfig = {
   persisterOptions: {
     keepUnusedRequests: false,
     fs: {
-      recordingsDir: DEFAULT_RECORDING_DIR,
+      recordingsDir: getDefaultRecordingDir(),
     },
   },
   mode,
   recordIfMissing: false,
   recordFailedRequests: true,
-  expiryStrategy: process.env.CI ? 'error' : 'record',
-  expiresIn: `${DEFAULT_EXPIRATION_DAYS}d`,
+  expiryStrategy: 'warn',
+  expiresIn: '14d',
   // insulate the tests from differences in session data. we use order and
   // url to match requests to one another, which we did previously with an
   // internal fork of LinkedIn's Sepia VCR. This should be fine for deterministic
@@ -37,11 +36,22 @@ const defaultConfig = {
   },
 };
 
-// setup Polly instance and save it into global context
-const context = setupPolly(merge({}, defaultConfig, global.pollyConfig));
-global.pollyContext = context;
+type PollyContext = {
+  polly: import('@pollyjs/core').Polly & {
+    config: import('@pollyjs/core').PollyConfig;
+  };
+};
 
-// Wait until all network requests are handled by Polly before ending each test.
-global.afterEach(async () => {
-  await global.pollyContext.polly.flush();
-});
+export const pollyContext: PollyContext = setupPolly(
+  merge({}, defaultConfig, (global as any).pollyConfig),
+);
+
+afterEach(() => pollyContext.polly.flush());
+
+function getDefaultRecordingDir() {
+  const testPath: string = (global as any).jasmine.testPath;
+  return path.relative(
+    process.cwd(),
+    `${path.dirname(testPath)}/__recordings__`,
+  );
+}
