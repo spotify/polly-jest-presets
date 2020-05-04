@@ -1,1 +1,1 @@
-declare module 'setup-polly-jest'
+declare module 'setup-polly-jest';

@@ -35,6 +35,7 @@ describe('test node preset', () => {
         "mode": "replay",
         "persister": "fs",
         "persisterOptions": Object {
+          "disableSortingHarEntries": false,
           "fs": Object {
             "recordingsDir": "src/__tests__/__recordings__",
           },
