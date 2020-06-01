@@ -40,6 +40,7 @@
     "@pollyjs/core": "^4.2.1",
     "@pollyjs/persister-fs": "^4.2.1",
     "@types/pollyjs__core": "^4.0.0",
+    "chalk": "^4.0.0",
     "lodash.merge": "^4.6.2",
     "setup-polly-jest": "^0.7.0"
   },
